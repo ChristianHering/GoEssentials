@@ -3,7 +3,6 @@ package goessentials
 import (
 	"encoding/json"
 	"io/ioutil"
-	"os"
 
 	"github.com/pkg/errors"
 )
@@ -21,7 +20,7 @@ var (
 //config doesn't exist, it's created with the default from
 //'configPointer' and returns the error 'ErrorConfigFileUnset'
 func GetConfig(configFileName string, configPointer interface{}) error {
-	if fileExists(configFileName) { //Get existing configuration from configFileName
+	if FileExists(configFileName) { //Get existing configuration from configFileName
 		b, err := ioutil.ReadFile(configFileName)
 		if err != nil {
 			return ErrorReadConfigFailed
@@ -47,13 +46,4 @@ func GetConfig(configFileName string, configPointer interface{}) error {
 	}
 
 	return ErrorConfigFileUnset
-}
-
-//Check to see if a file exists by name. Return bool
-func fileExists(filename string) bool {
-	info, err := os.Stat(filename)
-	if os.IsNotExist(err) {
-		return false
-	}
-	return !info.IsDir()
 }
